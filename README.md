@@ -48,4 +48,11 @@ Using data from 3 different endpoints (posts, users, properties), build an appli
 5. If create-react-app is used, make sure to clean up and remove anything that's not used.
 
 
+## Challange Done :
+
+
+![Alt text](https://raw.githubusercontent.com/shiv-source/vue-vuex-challange/master/video/record-02301430092020.gif)
+
+
+
 
