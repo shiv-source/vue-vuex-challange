@@ -47,6 +47,7 @@ const store = new Vuex.Store({
           res: res.data,
           isPostsLoaded: true,
         };
+        console.log(res.data)
         commit("SET_GET_POSTS_DATA", data);
       });
     },

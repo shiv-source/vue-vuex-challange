@@ -64,11 +64,16 @@
                 </td>
                 <td>
                   <span
+                    style="color: white"
                     class="btn btn-social-icon"
-                    v-bind:class="'btn-' + post.social_network"
+                    v-bind:class="
+                      'btn-' + getSocialNetwork(post.social_network)
+                    "
                     ><i
                       class="fa"
-                      v-bind:class="'fa-' + post.social_network"
+                      v-bind:class="
+                        'fa-' + getSocialNetwork(post.social_network)
+                      "
                     ></i>
                   </span>
                 </td>
@@ -86,7 +91,11 @@
                 </td>
                 <td><img class="postImg" v-bind:src="post.post_media" /></td>
                 <td>
-                  {{ post.post_content !== "null" ? post.post_content : "" }}
+                  {{
+                    post.post_content !== "null"
+                      ? senetizedPost(post.post_content)
+                      : ""
+                  }}
                 </td>
               </tr>
             </tbody>
@@ -98,6 +107,7 @@
 </template>
 
 <script>
+import sanitizeHtml from "sanitize-html";
 export default {
   data() {
     return {};
@@ -166,6 +176,28 @@ export default {
 
     refreshPage() {
       location.reload();
+    },
+
+    getSocialNetwork(social_network) {
+      if (social_network === "null") {
+        return "share-alt";
+      } else if (social_network === "instagram_graph") {
+        return "instagram";
+      } else {
+        return social_network;
+      }
+    },
+
+    senetizedPost(post) {
+      const dirty = post;
+      const clean = sanitizeHtml(dirty, {
+        allowedTags: [],
+        allowedAttributes: {
+          a: [],
+        },
+        allowedIframeHostnames: [],
+      });
+      return clean;
     },
   },
 };

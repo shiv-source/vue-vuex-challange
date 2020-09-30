@@ -9,6 +9,7 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import Vuex from 'vuex';
 import store from './store/store';
+import sanitizeHtml from 'sanitize-html';
 
 
 
@@ -18,6 +19,7 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(VueAxios, axios);
 Vue.use(Vuex);
+Vue.use(sanitizeHtml);
 
 Vue.config.productionTip = false
 
