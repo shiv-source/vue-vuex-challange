@@ -16,37 +16,33 @@ const store = new Vuex.Store({
     isPostsLoaded: false,
     isPropertiesLoaded: false,
     isUsersLoaded: false,
+    isError: false,
   },
 
   mutations: {
     SET_GET_POSTS_DATA(state, data) {
-   
       state.posts = data.res;
       state.isPostsLoaded = data.isPostsLoaded;
-      console.log(state.isPostsLoaded);
     },
 
     SET_GET_PROPERTIES_DATA(state, data) {
-      console.log(data);
       state.properties = data.res;
       state.isPropertiesLoaded = data.isPropertiesLoaded;
-      console.log(state.isPropertiesLoaded);
-
     },
 
     SET_GET_USER_DATA(state, data) {
-      console.log(data);
       state.users = data.res;
       state.isUsersLoaded = data.isUsersLoaded;
-      console.log(state.isUsersLoaded);
+    },
 
+    SET_ERROR_MESSAGE(state, data) {
+      state.isError = data;
     },
   },
 
   actions: {
     getPostsData({ commit }) {
       return axios.get(baseURL + "/api/posts").then((res) => {
-        console.log(res.data);
         let data = {
           res: res.data,
           isPostsLoaded: true,
@@ -57,7 +53,6 @@ const store = new Vuex.Store({
 
     getProperties({ commit }) {
       return axios.get(baseURL + "/api/properties").then((res) => {
-        console.log(res.data);
         let data = {
           res: res.data,
           isPropertiesLoaded: true,
@@ -72,9 +67,24 @@ const store = new Vuex.Store({
           res: res.data,
           isUsersLoaded: true,
         };
-        console.log(data);
+
         commit("SET_GET_USER_DATA", data);
       });
+    },
+
+    showError({ commit }) {
+      setTimeout(() => {
+        if (
+          this.state.isPostsLoaded &&
+          this.state.isPropertiesLoaded &&
+          this.state.isUsersLoaded
+        ) {
+          return;
+        } else {
+          let data = true;
+          return commit("SET_ERROR_MESSAGE", data);
+        }
+      }, 1000);
     },
   },
 });

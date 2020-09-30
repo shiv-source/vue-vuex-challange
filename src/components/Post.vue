@@ -2,80 +2,96 @@
   <div class="container">
     <div class="mt-3">
       <h1 id="header">Latest Posts</h1>
-      <div
-        v-if="
-          !(
-            this.$store.state.isPostsLoaded &&
-            this.$store.state.isPropertiesLoaded &&
-            this.$store.state.isUsersLoaded
-          )
-        "
-        class="text-center"
-      >
-        <div
-          class="spinner-border text-primary"
-          role="status"
-          style="width: 5rem; height: 5rem"
-        >
-          <span class="sr-only">Loading...</span>
+      <div v-if="this.$store.state.isError" class="showError">
+        <div class="card">
+          <div class="card-body text-center">
+            <b> <span style="color: #a03333"> Something went wrong </span> </b>
+            <br /><br />
+            <span style="color: #a03333">
+              Click <b @click="refreshPage()"><em> here </em> </b> to try again.
+            </span>
+          </div>
         </div>
       </div>
       <div v-else>
-        <table class="table table-bordered table-dark table-hover">
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Property</th>
-              <th scope="col">User</th>
-              <th scope="col">Network</th>
-              <th scope="col">Date</th>
-              <th scope="col">Image</th>
-              <th scope="col">Content</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="post in getPost" :key="post.id">
-              <td>{{ post.id }}</td>
-              <td>
-                {{
-                  post.property_id !== "null"
-                    ? getName(post.property_id)
-                    : "Unknown"
-                }}
-              </td>
-              <td>
-                {{ getUserName(post.property_id) }}
-                <img
-                  class="postImg"
-                  v-bind:src="getUserImage(post.property_id)"
-                />
-              </td>
-              <td>
-                <span
-                  class="btn btn-social-icon"
-                  v-bind:class="'btn-' + post.social_network"
-                  ><i class="fa" v-bind:class="'fa-' + post.social_network"></i>
-                </span>
-              </td>
-              <td>
-                {{
-                  post.post_date !== "null"
-                    ? new Intl.DateTimeFormat("en-US", {
-                        weekday: "long",
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      }).format(new Date(Date.parse(post.post_date)))
-                    : ""
-                }}
-              </td>
-              <td><img class="postImg" v-bind:src="post.post_media" /></td>
-              <td>
-                {{ post.post_content !== "null" ? post.post_content : "" }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div
+          v-if="
+            !(
+              this.$store.state.isPostsLoaded &&
+              this.$store.state.isPropertiesLoaded &&
+              this.$store.state.isUsersLoaded
+            )
+          "
+          class="text-center"
+        >
+          <div
+            class="spinner-border text-primary"
+            role="status"
+            style="width: 5rem; height: 5rem"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div v-else>
+          <table class="table table-bordered table-dark table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Property</th>
+                <th scope="col">User</th>
+                <th scope="col">Network</th>
+                <th scope="col">Date</th>
+                <th scope="col">Image</th>
+                <th scope="col">Content</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="post in getPost" :key="post.id">
+                <td>{{ post.id }}</td>
+                <td>
+                  {{
+                    post.property_id !== "null"
+                      ? getName(post.property_id)
+                      : "Unknown"
+                  }}
+                </td>
+                <td>
+                  {{ getUserName(post.property_id) }}
+                  <img
+                    class="postImg"
+                    v-bind:src="getUserImage(post.property_id)"
+                  />
+                </td>
+                <td>
+                  <span
+                    class="btn btn-social-icon"
+                    v-bind:class="'btn-' + post.social_network"
+                    ><i
+                      class="fa"
+                      v-bind:class="'fa-' + post.social_network"
+                    ></i>
+                  </span>
+                </td>
+                <td>
+                  {{
+                    post.post_date !== "null"
+                      ? new Intl.DateTimeFormat("en-US", {
+                          weekday: "long",
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        }).format(new Date(Date.parse(post.post_date)))
+                      : ""
+                  }}
+                </td>
+                <td><img class="postImg" v-bind:src="post.post_media" /></td>
+                <td>
+                  {{ post.post_content !== "null" ? post.post_content : "" }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -91,6 +107,7 @@ export default {
     this.$store.dispatch("getPostsData");
     this.$store.dispatch("getProperties");
     this.$store.dispatch("getUser");
+    this.$store.dispatch("showError");
   },
 
   computed: {
@@ -146,6 +163,10 @@ export default {
         }
       }
     },
+
+    refreshPage() {
+      location.reload();
+    },
   },
 };
 </script>
@@ -166,5 +187,11 @@ th {
 .spinner-border.text-primary {
   position: relative;
   top: 160px;
+}
+
+.card {
+  background-color: #f7d0dd;
+  margin-top: 30px;
+  border: none;
 }
 </style>
