@@ -10,6 +10,8 @@ import VueAxios from 'vue-axios';
 import Vuex from 'vuex';
 import store from './store/store';
 import sanitizeHtml from 'sanitize-html';
+import { VLazyImagePlugin } from "v-lazy-image";
+ 
 
 
 
@@ -20,6 +22,8 @@ Vue.use(IconsPlugin);
 Vue.use(VueAxios, axios);
 Vue.use(Vuex);
 Vue.use(sanitizeHtml);
+Vue.use(VLazyImagePlugin);
+
 
 Vue.config.productionTip = false
 
