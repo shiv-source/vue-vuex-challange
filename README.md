@@ -51,7 +51,7 @@ Using data from 3 different endpoints (posts, users, properties), build an appli
 ## Challange Done :
 
 
-![Alt text](https://raw.githubusercontent.com/shiv-source/vue-vuex-challange/master/video/record-02301430092020.gif)
+![Alt text](https://raw.githubusercontent.com/shiv-source/vue-vuex-challenge/master/video/ezgif.com-gif-maker.gif)
 
 
 
